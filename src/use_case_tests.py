@@ -41,3 +41,7 @@ def test_signup_encrypts_password():
     user_in_repo = user_repo.find_by_email(user_email)
     assert user_in_repo.password != user_password
     assert hash_service.check(user_password, user_in_repo.password) == True 
+
+def test_git_basics():
+    assert 2 == 2
+
