@@ -1,3 +1,4 @@
+from invalidpassworderror import InvalidPasswordError
 from user import User
 from duplicateusererror import DuplicateUserError
 from fakehashservice import FakeHashService
@@ -8,8 +9,23 @@ class SignUp:
         self.hash_service = hash_service
     
     def perform(self, name, email, password):
+        if invalid(password):
+            raise InvalidPasswordError
         if self.userrepo.find_by_email(email) != None:
             raise DuplicateUserError
         hashed_password = self.hash_service.hash(password)
         user = User(name, email, hashed_password)
         self.userrepo.add(user)
+
+
+def invalid(password):
+    if len(password) < 6 or len(password) > 15:
+        return True
+    lower_letters = [c for c in password if c.islower()]
+    upper_letters = [c for c in password if c.isupper()]
+    numbers = [c for c in password if c.isnumeric()]
+    alpha = [c for c in password if not c.isalnum()]
+    if not lower_letters or not upper_letters or not numbers or not alpha:
+        return True
+    return False
+    
