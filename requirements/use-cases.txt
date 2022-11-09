@@ -5,8 +5,8 @@
         - should contain uppercase letter
         - should contain lowercase letter
         - should contain number
+        - should contain special character
         - should contain between 6 and 15 characters
-        
 
 - sign in
 - create todo list

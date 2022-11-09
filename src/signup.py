@@ -10,9 +10,9 @@ class SignUp:
     
     def perform(self, name, email, password):
         if invalid(password):
-            raise InvalidPasswordError
+            raise InvalidPasswordError()
         if self.userrepo.find_by_email(email) != None:
-            raise DuplicateUserError
+            raise DuplicateUserError()
         hashed_password = self.hash_service.hash(password)
         user = User(name, email, hashed_password)
         self.userrepo.add(user)
