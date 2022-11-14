@@ -3,7 +3,7 @@ from user import User
 from todolist import TodoList
 from priority import Priority
 import pytest
-from duplicateditem import DuplicatedItem
+from entities.errors.duplicateditemerror import DuplicatedItem
 
 def test_done():
     item = TodoItem('make bed', Priority.LOW)
