@@ -1,7 +1,6 @@
-from invalidpassworderror import InvalidPasswordError
-from user import User
-from duplicateusererror import DuplicateUserError
-from fakehashservice import FakeHashService
+from src.usecases.errors.invalidpassworderror import InvalidPasswordError
+from src.usecases.errors.duplicateusererror import DuplicateUserError
+from src.entities.user import User
 
 class SignUp:
     def __init__(self, userrepo, hash_service) -> None:

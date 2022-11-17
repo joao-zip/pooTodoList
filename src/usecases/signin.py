@@ -1,5 +1,4 @@
-from invalidcredentialserror import InvalidCredentialsError
-from user import User
+from src.usecases.errors.invalidcredentialserror import InvalidCredentialsError
 
 class SignIn:
     def __init__(self, user_repo, hash_service) -> None:

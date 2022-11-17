@@ -1,4 +1,4 @@
-from entities.errors.duplicateditemerror import DuplicatedItem
+from src.entities.errors.duplicateditemerror import DuplicatedItem
 
 class TodoList:
     def __init__(self, owner):
