@@ -8,6 +8,7 @@ from src.usecases.signin import SignIn
 from tests.fakehashservice import FakeHashService
 import pytest
 from src.usecases.createtodolist import CreateTodoList
+from src.usecases.createtodoitem import CreateTodoItem
 from tests.inmemoryuserrepository import InMemoryUserRepository
 from tests.inmemorytodolistrepository import InMemoryTodoListRepository
 
@@ -126,18 +127,19 @@ def test_signin_invalid_user():
     with pytest.raises(InvalidCredentialsError):
         usecase.perform('invalid@user.com', 'Test123456789@')
 
-# def test_successful_todolist_creation():
-#     user_repo = InMemoryUserRepository()
-#     hash_service = FakeHashService()
-#     todo_list_repo = InMemoryTodoListRepository()
-#     user_name = 'Joe Doe'
-#     user_email = 'joe@doe.com'
-#     user_password = 'Test123456789@'
-#     signup = SignUp(user_repo, hash_service)
-#     usecase = CreateTodoList(user_repo, todo_list_repo)
-#     signup.perform(user_name, user_email, user_password)
-#     created_todolist = todo_list_repo.find_by_email(user_email)
-#     assert created_todolist.size() == 0
+def test_successful_todolist_creation():
+    user_repo = InMemoryUserRepository()
+    hash_service = FakeHashService()
+    todo_list_repo = InMemoryTodoListRepository()
+    user_name = 'Joe Doe'
+    user_email = 'joe@doe.com'
+    user_password = 'Test123456789@'
+    signup = SignUp(user_repo, hash_service)
+    usecase = CreateTodoList(user_repo, todo_list_repo)
+    signup.perform(user_name, user_email, user_password)
+    usecase.perform(user_email)
+    created_todolist = todo_list_repo.find_by_email(user_email)
+    assert created_todolist.size() == 0
 
 def test_create_todolist_for_invalid_user():
     user_repo = InMemoryUserRepository()
@@ -147,7 +149,7 @@ def test_create_todolist_for_invalid_user():
     with pytest.raises(InvalidUserError):
         usecase.perform(user_email)
 
-def create_duplicate_todolist():
+def test_create_duplicate_todolist():
     user_repo = InMemoryUserRepository()
     hash_service = FakeHashService()
     todo_list_repo = InMemoryTodoListRepository()
@@ -161,3 +163,20 @@ def create_duplicate_todolist():
     usecase.perform(user_email)
     with pytest.raises(DuplicateTodoListError):
         usecase.perform(user_email)
+
+def test_create_item_int_todo_list():
+    user_repo = InMemoryUserRepository()
+    todolist_repo = InMemoryTodoListRepository()
+    hash_service = FakeHashService()
+    user_name = 'Joe Doe'
+    user_email = 'joe@doe.com'
+    user_password = 'Test123456789@'
+    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+    CreateTodoList(user_repo, todolist_repo).perform(user_email)
+    usecase = CreateTodoItem(user_repo, todolist_repo)
+    item_description = 'call mom'
+    item_priority = 0
+    usecase.perform(user_email, item_description, item_priority)
+    persisted_todo_list = todolist_repo.find_by_email(user_email)
+    assert persisted_todo_list.size() == 1
+    assert persisted_todo_list.get(0).description == item_description

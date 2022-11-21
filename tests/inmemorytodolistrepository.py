@@ -11,3 +11,8 @@ class InMemoryTodoListRepository(TodoListRepository):
         for todolist in self.todolist:
             if todolist.owner.email == email:
                 return todolist
+
+    def update(self, user_email, newtodolist):
+        for index in range(len(self.todolist)):
+            if self.todolist[index].owner.email == user_email:
+                self.todolist[index] = newtodolist
