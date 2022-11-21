@@ -3,6 +3,7 @@ from src.usecases.errors.invalidcredentialserror import InvalidCredentialsError
 from src.usecases.errors.invalidpassworderror import InvalidPasswordError
 from src.usecases.errors.duplicateusererror import DuplicateUserError
 from src.usecases.errors.invalidusererror import InvalidUserError
+from src.entities.errors.duplicateditemerror import DuplicatedItem # Atividade dia 21
 from src.usecases.signup import SignUp
 from src.usecases.signin import SignIn
 from tests.fakehashservice import FakeHashService
@@ -159,12 +160,12 @@ def test_create_duplicate_todolist():
     signup = SignUp(user_repo, hash_service)
     usecase = CreateTodoList(user_repo, todo_list_repo)
     signup.perform(user_name, user_email, user_password)
-    created_todolist = todo_list_repo.find_by_email(user_email)
     usecase.perform(user_email)
+    created_todolist = todo_list_repo.find_by_email(user_email)
     with pytest.raises(DuplicateTodoListError):
         usecase.perform(user_email)
 
-def test_create_item_int_todo_list():
+def test_create_item_in_todo_list():
     user_repo = InMemoryUserRepository()
     todolist_repo = InMemoryTodoListRepository()
     hash_service = FakeHashService()
@@ -180,3 +181,33 @@ def test_create_item_int_todo_list():
     persisted_todo_list = todolist_repo.find_by_email(user_email)
     assert persisted_todo_list.size() == 1
     assert persisted_todo_list.get(0).description == item_description
+
+def test_create_duplicate_item(): # Atividade dia 21
+    user_repo = InMemoryUserRepository()
+    todolist_repo = InMemoryTodoListRepository()
+    hash_service = FakeHashService()
+    user_name = 'Joe Doe'
+    user_email = 'joe@doe.com'
+    user_password = 'Test123456789@'
+    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+    CreateTodoList(user_repo, todolist_repo).perform(user_email)
+    usecase = CreateTodoItem(user_repo, todolist_repo)
+    item_description = 'call mom'
+    item_priority = 0
+    usecase.perform(user_email, item_description, item_priority)
+    item2 = 'call mom'
+    item2_prio = 0
+    with pytest.raises(DuplicatedItem):
+        usecase.perform(user_email, item2, item2_prio)
+    
+def test_create_item_for_invalid_user():
+    user_repo = InMemoryUserRepository()
+    todo_list_repo = InMemoryTodoListRepository()
+    user_email = 'eu@naotonoemail'
+    item_description = 'play blackjack'
+    item_priority = 0
+    usecase = CreateTodoItem(user_repo, todo_list_repo)
+    with pytest.raises(InvalidUserError):
+        usecase.perform(user_email, item_description, item_priority)
+
+        
