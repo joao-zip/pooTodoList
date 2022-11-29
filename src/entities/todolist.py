@@ -1,4 +1,5 @@
 from src.entities.errors.duplicateditemerror import DuplicatedItem
+from src.usecases.errors.invalidusererror import InvalidUserError
 
 class TodoList:
     def __init__(self, owner):
@@ -10,7 +11,6 @@ class TodoList:
             raise DuplicatedItem()
         self.list.append(item)
         self.sort()
-        
 
     def get(self, index):
         return self.list[index]
@@ -38,3 +38,11 @@ class TodoList:
     def change_priority(self, index, new_priority):
         self.list[index].change_priority(new_priority)
         self.list.sort()
+
+    def show(self, owner):
+        if owner != self.get_owner():
+            raise InvalidUserError()
+        else:
+            for i in self.list:
+                print(f'-> {i}')
+

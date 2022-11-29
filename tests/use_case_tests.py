@@ -210,4 +210,49 @@ def test_create_item_for_invalid_user():
     with pytest.raises(InvalidUserError):
         usecase.perform(user_email, item_description, item_priority)
 
-        
+# def test_show_todo_list(): # Atividade dia 24/11
+#     user_repo = InMemoryUserRepository()
+#     todolist_repo = InMemoryTodoListRepository()
+#     hash_service = FakeHashService()
+#     user_name = 'Joe Doe'
+#     user_email = 'joe@doe.com'
+#     user_password = 'Test123456789@'
+#     SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+#     CreateTodoList(user_repo, todolist_repo).perform(user_email)
+#     usecase = CreateTodoItem(user_repo, todolist_repo)
+#     item_description = 'call mom'
+#     item_priority = 0
+#     usecase.perform(user_email, item_description, item_priority)
+#     item2_description = 'study oop'
+#     item2_priority = 1
+#     usecase.perform(user_email, item2_description, item2_priority)
+
+# Adicionado o método show na classe TodoList
+
+def test_change_description():
+    user_repo = InMemoryUserRepository()
+    todolist_repo = InMemoryTodoListRepository()
+    hash_service = FakeHashService()
+    user_name = 'Joe Doe'
+    user_email = 'joe@doe.com'
+    user_password = 'Test123456789@'
+    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+    CreateTodoList(user_repo, todolist_repo).perform(user_email)
+    usecase = CreateTodoItem(user_repo, todolist_repo)
+    item_description = 'call mom'
+    item_priority = 0
+    usecase.perform(user_email, item_description, item_priority)
+
+def test_change_priority():
+    user_repo = InMemoryUserRepository()
+    todolist_repo = InMemoryTodoListRepository()
+    hash_service = FakeHashService()
+    user_name = 'Joe Doe'
+    user_email = 'joe@doe.com'
+    user_password = 'Test123456789@'
+    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+    CreateTodoList(user_repo, todolist_repo).perform(user_email)
+    usecase = CreateTodoItem(user_repo, todolist_repo)
+    item_description = 'call mom'
+    item_priority = 0
+    usecase.perform(user_email, item_description, item_priority)
