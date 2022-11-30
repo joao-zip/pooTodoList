@@ -82,7 +82,7 @@ def test_change_priority_resorts():
     assert list.get(1).description == item2.description
     assert list.get(2).description == item3.description
 
-def test_should_not_have_teo_items():
+def test_should_not_have_two_items():
     item1 = TodoItem('make bed', Priority.LOW)
     item2 = TodoItem('make bed', Priority.MEDIUM)
     owner = User('Joe Doe', 'joe@doe.com', '1234')
@@ -90,3 +90,29 @@ def test_should_not_have_teo_items():
     list.add(item1)
     with pytest.raises(DuplicatedItem):
         list.add(item2)
+
+def test_change_description_in_todolist():
+    item1 = TodoItem('make bed', Priority.LOW)
+    item2 = TodoItem('withdraw cash', Priority.MEDIUM)
+    item3 = TodoItem('call mom', Priority.HIGH)
+    owner = User('Joe Doe', 'joe@doe.com', '1234')
+    list = TodoList(owner)
+    list.add(item1)
+    list.add(item2)
+    list.add(item3)
+    list.change_description('make bed', 'clean bedroom')
+    assert list.find('clean bedroom') != None
+    assert list.find('make bed') == None
+
+def test_change_description_in_todolist_duplicate_item():
+    item1 = TodoItem('make bed', Priority.LOW)
+    item2 = TodoItem('withdraw cash', Priority.MEDIUM)
+    item3 = TodoItem('call mom', Priority.HIGH)
+    owner = User('Joe Doe', 'joe@doe.com', '1234')
+    list = TodoList(owner)
+    list.add(item1)
+    list.add(item2)
+    list.add(item3)
+    with pytest.raises(DuplicatedItem):
+        list.change_description('make bed', 'call mom')
+

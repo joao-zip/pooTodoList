@@ -229,30 +229,32 @@ def test_create_item_for_invalid_user():
 
 # Adicionado o método show na classe TodoList
 
-def test_change_description():
-    user_repo = InMemoryUserRepository()
-    todolist_repo = InMemoryTodoListRepository()
-    hash_service = FakeHashService()
-    user_name = 'Joe Doe'
-    user_email = 'joe@doe.com'
-    user_password = 'Test123456789@'
-    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
-    CreateTodoList(user_repo, todolist_repo).perform(user_email)
-    usecase = CreateTodoItem(user_repo, todolist_repo)
-    item_description = 'call mom'
-    item_priority = 0
-    usecase.perform(user_email, item_description, item_priority)
+# def test_change_description():
+#     user_repo = InMemoryUserRepository()
+#     todolist_repo = InMemoryTodoListRepository()
+#     hash_service = FakeHashService()
+#     user_name = 'Joe Doe'
+#     user_email = 'joe@doe.com'
+#     user_password = 'Test123456789@'
+#     SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+#     CreateTodoList(user_repo, todolist_repo).perform(user_email)
+#     usecase = CreateTodoItem(user_repo, todolist_repo)
+#     item_description = 'call mom'
+#     item_priority = 0
+#     usecase.perform(user_email, item_description, item_priority)
 
-def test_change_priority():
-    user_repo = InMemoryUserRepository()
-    todolist_repo = InMemoryTodoListRepository()
-    hash_service = FakeHashService()
-    user_name = 'Joe Doe'
-    user_email = 'joe@doe.com'
-    user_password = 'Test123456789@'
-    SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
-    CreateTodoList(user_repo, todolist_repo).perform(user_email)
-    usecase = CreateTodoItem(user_repo, todolist_repo)
-    item_description = 'call mom'
-    item_priority = 0
-    usecase.perform(user_email, item_description, item_priority)
+# def test_change_priority():
+#     user_repo = InMemoryUserRepository()
+#     todolist_repo = InMemoryTodoListRepository()
+#     hash_service = FakeHashService()
+#     user_name = 'Joe Doe'
+#     user_email = 'joe@doe.com'
+#     user_password = 'Test123456789@'
+#     SignUp(user_repo, hash_service).perform(user_name, user_email, user_password)
+#     CreateTodoList(user_repo, todolist_repo).perform(user_email)
+#     usecase = CreateTodoItem(user_repo, todolist_repo)
+#     item_description = 'call mom'
+#     item_priority = 0
+#     usecase.perform(user_email, item_description, item_priority)
+
+

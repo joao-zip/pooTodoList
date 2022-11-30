@@ -39,6 +39,13 @@ class TodoList:
         self.list[index].change_priority(new_priority)
         self.list.sort()
 
+    def change_description(self,old_description, new_description):
+        existing_item = self.find(new_description)
+        if existing_item:
+            raise DuplicatedItem()
+        item = self.find(old_description)
+        item.change_description(new_description)
+
     def show(self, owner):
         if owner != self.get_owner():
             raise InvalidUserError()
