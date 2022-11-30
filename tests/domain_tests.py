@@ -116,3 +116,28 @@ def test_change_description_in_todolist_duplicate_item():
     with pytest.raises(DuplicatedItem):
         list.change_description('make bed', 'call mom')
 
+def test_complete_item_goes_to_end_of_list():
+    item1 = TodoItem('make bed', Priority.LOW)
+    item2 = TodoItem('withdraw cash', Priority.MEDIUM)
+    item3 = TodoItem('call mom', Priority.HIGH)
+    owner = User('Joe Doe', 'joe@doe.com', '1234')
+    list = TodoList(owner)
+    list.add(item1)
+    list.add(item2)
+    list.add(item3)
+    list.complete_by_description('call mom')
+    assert item3.is_done() == True
+    assert list.list[2] == item3
+
+def test_complete_item_goes_to_end_of_list_2():
+    item1 = TodoItem('make bed', Priority.LOW)
+    item2 = TodoItem('withdraw cash', Priority.MEDIUM)
+    item3 = TodoItem('call mom', Priority.HIGH)
+    owner = User('Joe Doe', 'joe@doe.com', '1234')
+    list = TodoList(owner)
+    list.add(item1)
+    list.add(item2)
+    list.add(item3)
+    list.complete_item(0)
+    assert item3.is_done() == True
+    assert list.list[2] == item3

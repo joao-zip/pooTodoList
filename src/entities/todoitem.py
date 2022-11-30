@@ -5,7 +5,13 @@ class TodoItem:
         self.priority = priority
 
     def __lt__(self, other):
-        return self.priority.value < other.priority.value
+        if not self.done and not other.done:
+            return self.priority.value < other.priority.value
+        if self.done and not other.done:
+            return False
+        if not self.done and other.done:
+            return True
+        return False
 
     def complete(self):
         self.done = True
